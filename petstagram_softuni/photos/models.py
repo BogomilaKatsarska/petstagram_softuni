@@ -1,18 +1,45 @@
+from django.core.validators import MinLengthValidator
 from django.db import models
 
+from petstagram_softuni.core.model_mixins import StrFromFieldsMixin
+from petstagram_softuni.pets.models import Pet
+from petstagram_softuni.photos.validators import validate_image_less_than_5mb
 
-class Photo(models.Model):
+
+class Photo(StrFromFieldsMixin,models.Model):
+    str_fields = ('photo', 'location')
     MIN_DESCRIPTION_LEN = 10
     MAX_DESCRIPTION_LEN = 300
     MAX_LOCATION_LEN = 30
+
     photo = models.ImageField(
+        # upload_to='mediafiles/pet_photos/',
         null=False,
         blank=True,
+        validators=(validate_image_less_than_5mb,),
     )
     description = models.CharField(
-
+        max_length=MAX_DESCRIPTION_LEN,
+        validators=(
+            MinLengthValidator(MIN_DESCRIPTION_LEN),
+        ),
+        null=True,
+        blank=True,
     )
-    location = models.CharField()
+    location = models.CharField(
+        max_length=MAX_LOCATION_LEN,
+        null=True,
+        blank=True,
+    )
     publication_date = models.DateField(
-
+        auto_now=True,
+        blank=True,
+        null=False,
     )
+
+    tagged_pets = models.ManyToManyField(
+        Pet,
+        blank=True,
+    )
+
+

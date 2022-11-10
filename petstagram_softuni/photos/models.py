@@ -7,7 +7,7 @@ from petstagram_softuni.photos.validators import validate_image_less_than_5mb
 
 
 class Photo(StrFromFieldsMixin,models.Model):
-    str_fields = ('photo', 'location')
+    str_fields = ('pk', 'photo', 'location')
     MIN_DESCRIPTION_LEN = 10
     MAX_DESCRIPTION_LEN = 300
     MAX_LOCATION_LEN = 30

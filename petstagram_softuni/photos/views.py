@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from petstagram_softuni.photos.models import Photo
 
 
 def add_photo(request):
@@ -6,7 +7,14 @@ def add_photo(request):
 
 
 def details_photo(request, pk):
-    return render(request, 'photos/photo-details-page.html')
+    photo = Photo.objects.filter(pk=pk).get()
+
+    context = {
+        'photo': photo,
+        'has_user_liked_photo': get_user_liked_photos(pk),
+        'likes_count': photo.photolike_set.count(),
+    }
+    return render(request, 'photos/photo-details-page.html', context)
 
 
 def edit_photo(request, pk):

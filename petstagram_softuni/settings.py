@@ -1,4 +1,5 @@
 # 0:51 Workshop III
+#1:38:50 Workshop III
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -105,6 +106,9 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = (
     BASE_DIR / 'staticfiles',
 )
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'mediafiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

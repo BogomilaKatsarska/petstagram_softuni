@@ -1,4 +1,6 @@
 from django import forms
+
+from petstagram_softuni.core.form_mixins import DisabledFormMixin
 from petstagram_softuni.pets.models import Pet
 
 
@@ -41,6 +43,17 @@ class PetEditForm(PetBaseForm):
     pass
 
 
-class PetDeleteForm(PetBaseForm):
-    pass
+class PetDeleteForm(DisabledFormMixin, PetBaseForm):
+    disabled_fields = ('name', 'date_of_birth', 'personal_photo')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._disable_fields()
+
+    def save(self, commit=True):
+        if commit:
+            self.instance.delete()
+        else:
+            pass
+        return self.instance
 
